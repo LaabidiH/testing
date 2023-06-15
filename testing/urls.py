@@ -20,8 +20,11 @@ from testme import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include('testme.urls')),
+    path("home", include('testme.urls')),
     path('signup/', views.signup, name='signup'),
-    path("login/", views.user_login, name='login'),
+    path("", views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
+    path('actives/', views.actives, name='actives'),
+    path('contact/', views.contact, name='contact'),
+    path('archive/', views.archive_dossiers, name='archive_dossiers'),
 ]

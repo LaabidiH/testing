@@ -6,10 +6,22 @@ from .models import *
 
 
 def Home(request):
-
     context = {}
     data = Personnel.objects.filter(active = False)
     return render(request,'index.html', {'data':data})
+
+def actives(request):
+    context = {}
+    data = Personnel.objects.filter(active = True)
+    return render(request,'comptes_actives.html', {'data':data})
+
+def contact(request):
+    context = {}
+    return render(request,"contact.html")
+
+def archive_dossiers(request):
+    context = {}
+    return render(request,"archive_dossiers.html")
 
 def signup(request):
     roles = Personnel.service_role
