@@ -16,7 +16,7 @@
         <img src="{% static 'img/user.png' %}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block">User {%block identity%}{% endblock %}</a>
+        <a href="#" class="d-block">{{role}}</a>
       </div>
     </div>
 
@@ -61,12 +61,39 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="{% url 'archive_dossiers' %}" class="nav-link">
-            <i class="nav-icon fas fa-th"></i>
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Archive des dossiers
+              <i class="right fas fa-angle-left"></i>
             </p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{% url 'archive_dossiers' %}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Archive hospitalisation</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'cons' %}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Archive consultation</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'radio' %}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Archive radiologie</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'bio' %}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Archive biologie</p>
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">

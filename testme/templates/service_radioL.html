@@ -1,0 +1,27 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block menus %}
+
+{% with urlname1="service_radio" urlname2="service_radioL" %}
+    {% include '_nav.html' with title1="ajouter bon" title2="liste des bons" %}
+{% endwith %}
+
+{% with urlhome="service_radio" urlListe="service_radioL" %}
+    {% include '__sidebar.html' with role=user.username %}
+{% endwith %}
+
+{% endblock %}
+
+{% block content %}
+<!-- Main content -->
+<div class="card card-primary" style="margin-left:200px; width: 700px">
+    <div class="card-header">
+        <h3 class="card-title">listes des bons de radiologie</h3>
+    </div>
+
+</div>
+  <!-- /.content -->
+  {% endblock %}
+  {% block scripts %}
+  {% endblock %}

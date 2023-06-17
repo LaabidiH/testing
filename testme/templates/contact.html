@@ -2,7 +2,10 @@
 {% load static %}
 
 {% block menus %}
-{% include '_nav.html' with title1="Archive des dossiers " title2="" %}
+{% with urlname1="contact" urlname2="contact" %}
+    {% include '_nav.html' with title1="Contact" title2="" %}
+{% endwith %}
+{% include '_sidebar.html' with role=user.username %}
 {% endblock %}
 
 {% block content %}

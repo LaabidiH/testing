@@ -3,7 +3,10 @@
 
 
   {% block menus %}
+  {% with urlname1="home" urlname2="actives" %}
     {% include '_nav.html' with title1="Comptes en attente" title2="Comptes activés" %}
+  {% endwith %}
+  {% include '_sidebar.html' with role=user.username %}
   {% endblock %}
 
 {% block content %}
@@ -18,24 +21,29 @@
     <table id="example1" class="table table-bordered table-striped">
       <thead>
         <tr>
+          <th>Nom</th>
           <th>Username</th>
           <th>Email</th>
           <th>Téléphone(s)</th>
           <th>Adresse</th>
+          <th>Service</th>
           <th>Activation</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         {% for user in data %}
         <tr>
+          <td class="">{{user.nom}}</td>
           <td class="">{{user.username}}</td>
           <td class="">{{user.email}}</td>
           <td class="">{{user.tele}}</td>
           <td class="">{{user.adresse}}</td>
+          <td class="">{{user.roles}}</td>
           <td>
             {% if user.active %}
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="exampleCheckbox" checked>
+              <input class="form-check-input" type="checkbox" id="exampleCheckbox">
               <label class="form-check-label" for="exampleCheckbox">Désactivé</label>
             </div>
             {% else %}
@@ -45,16 +53,23 @@
             </div>
             {% endif %}
           </td>
+          <td>
+            <a href="#" class="btn btn-info">save</a> 
+            <a href="#" class="btn btn-danger">delete</a>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
       <tfoot>
         <tr>
-          <th class="">Username</th>
-          <th class="">Email</th>
-          <th class="">Tele</th>
-          <th class="">Adresse</th>
-          <th> Activation</th>
+          <th>Nom</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Téléphone(s)</th>
+          <th>Adresse</th>
+          <th>Service</th>
+          <th>Activation</th>
+          <th>Action</th>
         </tr>
       </tfoot>
     </table>
