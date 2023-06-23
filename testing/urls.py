@@ -20,7 +20,7 @@ from testme import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("home", include('testme.urls')),
+    path('', include('testme.urls')),
     path('signup/', views.signup, name='signup'),
     path("", views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
@@ -29,8 +29,6 @@ urlpatterns = [
     path('archive/', views.archive_dossiers, name='archive_dossiers'),
     path('radio/', views.radio, name='radio'),
     path('bio/', views.bio, name='bio'),
-    path('radiologie/', views.service_radio, name='service_radio'),
-    path('biologie/', views.service_biologie, name='service_biologie'),
-    path('radiologieL/', views.service_radioL, name='service_radioL'),
-    path('biologieL/', views.service_biologieL, name='service_biologieL'),
+    path('saa/', views.saa, name='saa'),
+    path('saa2/', views.saa2, name='saa2'),
 ]

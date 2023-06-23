@@ -1,0 +1,210 @@
+{% extends 's_base.html' %}
+{% load static %}
+
+{% block menus %}
+  {% with urlname1="saa" urlname2="saa2" %}
+    {% include '_nav.html' with title1="Ajouter une action" title2="Ajouter nouveau dossier" %}
+  {% endwith %}
+
+  {% with urlhome="saa" url2="saa2" %}
+    {% include 'saa_sidebar.html' with tit1="Ajouter une action" tit2="Ajouter nouveau dossier" role=user.username %}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+<!-- Main content -->
+<div class="container">
+  <div class="card" style="width: 1000px; margin-left: 60px;">
+    <div class="card-header">
+      <h3 class="card-title">Ajouter une nouvelle action</h3>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal" method="post" >
+        {% csrf_token %}
+        <div class="card-body">
+          <div class="card-body">
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">IPP</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="ipp" name="ipp" placeholder="Identifiant du patient">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">CIN d'assurant :</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="cin" name="cin" placeholder="Carte d'identité nationale">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label style="margin-right: 120px;">Date:</label>
+              <div class="input-group date" id="reservationdate" style=" width: 700px;" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputFile" style="margin-right: 62px;">Ordonnance :</label>
+              <div class="input-group" style="width: 700px;">
+                <div class="custom-file">
+                  <input type="file" class="form-control custom-file-input" id="exampleInputFile">
+                  <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                </div>
+                <div class="input-group-append">
+                  <span class="input-group-text">Upload</span>
+                </div>
+              </div>
+            </div> 
+            <div class="form-group row">
+              <label style="margin-right: 102px;">Action :</label>
+              <select class="form-control select2 select2-danger" name="actionMed" id="actionMed" data-dropdown-css-class="select2-danger" style=" width: 700px;">
+                <option selected="selected">Consultation</option>
+                <option value="hospitalisation">Hospitalisation</option>
+                <option value="radiologie">Radiologie</option>
+                <option value="biologie">Biologie</option>
+              </select>
+            </div>      
+          </div>
+          <div class="card-footer">
+            <div class="hospitalisation_form" style="display: none;">
+              <div class="form-group row">
+                <label style="margin-right: 76px;">Date de sortie:</label>
+                <div class="input-group date" id="reservationdate" style=" width: 700px;" data-target-input="nearest">
+                  <input type="text" id="date_sortie" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                  <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="exampleInputFile" style="margin-right: 118px;">Facture :</label>
+                <div class="input-group" style="width: 700px;">
+                  <div class="custom-file">
+                    <input type="file" id="facture_hosp" class="form-control custom-file-input" id="exampleInputFile">
+                    <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                  </div>
+                  <div class="input-group-append">
+                    <span class="input-group-text">Upload</span>
+                  </div>
+                </div>
+              </div> 
+              <div class="form-group row">
+                <label for="exampleInputFile" style="margin-right: 10px;">Billet d'hospitalisation :</label>
+                <div class="input-group" style="width: 700px;">
+                  <div class="custom-file">
+                    <input type="file" id="billet" class="form-control custom-file-input" id="exampleInputFile">
+                    <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                  </div>
+                  <div class="input-group-append">
+                    <span class="input-group-text">Upload</span>
+                  </div>
+                </div>
+              </div> 
+            </div>
+            
+            <div class="radiologie_form" style="display: none;">
+              <div class="form-group row">
+                <label for="exampleInputFile" style="margin-right: 118px;">Facture :</label>
+                <div class="input-group" style="width: 700px;">
+                  <div class="custom-file">
+                    <input type="file" class="form-control custom-file-input" id="facture_radio">
+                    <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                  </div>
+                  <div class="input-group-append">
+                    <span class="input-group-text">Upload</span>
+                  </div>
+                </div>
+              </div> 
+              <div class="form-group row">
+                <label for="exampleInputFile" style="margin-right: 48px;">Bon de radiologie :</label>
+                <div class="input-group" style="width: 700px;">
+                  <div class="custom-file">
+                    <input type="file" class="form-control custom-file-input" id="bon_radio">
+                    <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                  </div>
+                  <div class="input-group-append">
+                    <span class="input-group-text">Upload</span>
+                  </div>
+                </div>
+              </div> 
+            </div>
+
+            <div class="biologie_form" style="display: none;">
+              <div class="form-group row">
+                <label for="exampleInputFile" style="margin-right: 118px;">Facture :</label>
+                <div class="input-group" style="width: 700px;">
+                  <div class="custom-file">
+                    <input type="file" class="form-control custom-file-input" id="facture_bio">
+                    <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                  </div>
+                  <div class="input-group-append">
+                    <span class="input-group-text">Upload</span>
+                  </div>
+                </div>
+              </div> 
+              <div class="form-group row">
+                <label for="exampleInputFile" style="margin-right: 60px;">Bon de biologie :</label>
+                <div class="input-group" style="width: 700px;">
+                  <div class="custom-file">
+                    <input type="file" class="form-control custom-file-input" id="bon_bio">
+                    <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                  </div>
+                  <div class="input-group-append">
+                    <span class="input-group-text">Upload</span>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+        
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-info float-right">Soumettre</button>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+  </script>
+
+<script>
+function toggleForms() {
+  var selectedOption = document.getElementById('actionMed').value;
+  var hospitalisationForm = document.getElementsByClassName('hospitalisation_form')[0];
+  var radiologieForm = document.getElementsByClassName('radiologie_form')[0];
+  var biologieForm = document.getElementsByClassName('biologie_form')[0];
+
+  if (selectedOption === 'hospitalisation') {
+    hospitalisationForm.style.display = 'block';
+    radiologieForm.style.display = 'none';
+    biologieForm.style.display = 'none';
+  } else if (selectedOption === 'radiologie') {
+    hospitalisationForm.style.display = 'none';
+    radiologieForm.style.display = 'block';
+    biologieForm.style.display = 'none';
+  } else if (selectedOption === 'biologie') {
+    hospitalisationForm.style.display = 'none';
+    radiologieForm.style.display = 'none';
+    biologieForm.style.display = 'block';
+  } else {
+    hospitalisationForm.style.display = 'none';
+    radiologieForm.style.display = 'none';
+    biologieForm.style.display = 'none';
+  }
+}
+
+document.getElementById('actionMed').addEventListener('change', toggleForms);
+
+</script>
+{% endblock %}

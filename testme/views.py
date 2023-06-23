@@ -8,18 +8,42 @@ import re
 
 def Home(request):
     context = {}
-    data = Personnel.objects.filter(active = False)
+    # Pour Medecin
+    medecins_non_actifs = Medecin.objects.filter(active=False)
+
+    # Pour PersonnelSoignant
+    personnels_non_actifs = PersonnelSoignant.objects.filter(active=False)
+
+    # Rassembler les objets eux-mêmes et les valeurs des champs dans une liste
+    data = list(medecins_non_actifs) + list(personnels_non_actifs)
+
     return render(request,'index.html', {'data':data})
+
 
 def actives(request):
     context = {}
-    data = Personnel.objects.filter(active = True)
+    # Pour Medecin
+    medecins_non_actifs = Medecin.objects.filter(active=True)
+
+    # Pour PersonnelSoignant
+    personnels_non_actifs = PersonnelSoignant.objects.filter(active=True)
+
+    # Rassembler les objets eux-mêmes et les valeurs des champs dans une liste
+    data = list(medecins_non_actifs) + list(personnels_non_actifs)
     return render(request,'comptes_actives.html', {'data':data})
+
 
 def contact(request):
     context = {}
     return render(request,"contact.html")
 
+def saa(request):
+    context = {}
+    return render(request,"saa.html")
+
+def saa2(request):
+    context = {}
+    return render(request,"saa2.html")
 
 def validate_email(email):
     email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -30,12 +54,12 @@ def validate_phone(phone):
     return re.match(phone_regex, phone)
 
 def signup(request):
-    roles = Personnel.service_role  # Utiliser les choix définis dans le modèle Personnel
-    poste = Personnel.poste_role
-    serviceMedecin = Personnel.service_medecin
+    poste = Personne._meta.get_field('poste_role').choices
+    roles = PersonnelSoignant._meta.get_field('service_role').choices
+    serviceMedecin = Medecin._meta.get_field('service_medecin').choices
+
     if request.method == 'POST':
         nom = request.POST['nom']
-        username = request.POST['username']
         password = request.POST['password']
         adresse = request.POST['adresse']
         email = request.POST['email']
@@ -45,41 +69,58 @@ def signup(request):
         inpe= request.POST['inpe']
         poste = request.POST['poste']
 
-        if service=="SAA" and poste =="medecin":
-            service = service1
-        
-        if poste == "personnel" :
-            service1 = None
-        # Vérifier si les champs sont bien remplis
-        if nom and username and password and adresse and email and tele and service:
-            # Valider le format de l'email
-            if not validate_email(email):
-                error_message = "Format d'email non valide"
-                return render(request, 'signup.html', {'roles': roles, 'error_message': error_message})
+
+        if not validate_email(email):
+            error_message = "Format d'email non valide"
+            return render(request, 'signup.html', {'roles': roles, 'error_message': error_message})
             
             # Valider le format du téléphone
-            if not validate_phone(tele):
-                error_message = "Format de téléphone non valide"
-                return render(request, 'signup.html', {'roles': roles, 'error_message': error_message})
+        if not validate_phone(tele):
+            error_message = "Format de téléphone non valide"
+            return render(request, 'signup.html', {'roles': roles, 'error_message': error_message})
+        
+        if poste =="medecin":
+            if nom and password and adresse and email and tele and service1:
+                respo = request.POST['respo']
+                if respo == "on":
+                    respo = True
+                else :
+                    respo = False
+                medecin = Medecin(
+                    nom_complet=nom,
+                    password=password,
+                    adresse=adresse,
+                    email=email,
+                    tele=tele, 
+                    inpe =inpe,
+                    poste_role=poste,
+                    service_medecin=service1,
+                    responsable=respo
+                )
+                medecin.save()
+                return redirect('login')
+            else:
+                error_message = "Tous les champs doivent être remplis"
+                return render(request, 'signup.html', {'roles': roles, 'error_message': error_message,'poste':poste, 'serviceMedecin':serviceMedecin})
+
+        
+        if poste == "technicien" :
+            if nom and password and adresse and email and tele and service:
+                personnel = PersonnelSoignant(
+                    nom_complet=nom,
+                    password=password,
+                    adresse=adresse,
+                    email=email,
+                    tele=tele, 
+                    poste_role=poste,
+                    service_role=service
+                )
+                personnel.save()
+                return redirect('login')
+            else:
+                error_message = "Tous les champs doivent être remplis"
+                return render(request, 'signup.html', {'roles': roles, 'error_message': error_message,'poste':poste, 'serviceMedecin':serviceMedecin})
             
-            personnel = Personnel(
-                nom=nom,
-                username=username,
-                password=password,
-                adresse=adresse,
-                email=email,
-                tele=tele, 
-                roles=service,
-                poste=poste,
-                INPE =inpe,
-                serviceMedecin=service1
-            )
-            personnel.save()
-            return redirect('login')
-        else:
-            error_message = "Tous les champs doivent être remplis"
-            return render(request, 'signup.html', {'roles': roles, 'error_message': error_message,'poste':poste, 'serviceMedecin':serviceMedecin})
-    
     return render(request, 'signup.html', {'roles':roles,'poste':poste,'serviceMedecin':serviceMedecin})
 
 def archive_dossiers(request):

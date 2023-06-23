@@ -22,11 +22,11 @@
       <thead>
         <tr>
           <th>Nom</th>
-          <th>Username</th>
           <th>Email</th>
           <th>Téléphone(s)</th>
           <th>Adresse</th>
           <th>Service</th>
+          <th>Poste</th>
           <th>Activation</th>
           <th>Action</th>
         </tr>
@@ -34,12 +34,19 @@
       <tbody>
         {% for user in data %}
         <tr>
-          <td class="">{{user.nom}}</td>
-          <td class="">{{user.username}}</td>
+          <td class="">{{user.nom_complet}}</td>
           <td class="">{{user.email}}</td>
           <td class="">{{user.tele}}</td>
           <td class="">{{user.adresse}}</td>
-          <td class="">{{user.roles}}</td>
+          <td class="">
+            {% if user.service_medecin %} 
+            {{user.service_medecin}}
+            <td class="">Medecin</td>
+            {% else %} 
+            {{user.service_role}}
+            <td class="">Technicien</td>
+            {% endif %}
+          </td>
           <td>
             {% if user.active %}
             <div class="form-check">
@@ -54,7 +61,7 @@
             {% endif %}
           </td>
           <td>
-            <a href="#" class="btn btn-info">save</a> 
+            <a href="#" class="btn btn-info">change</a> 
             <a href="#" class="btn btn-danger">delete</a>
           </td>
         </tr>
@@ -63,11 +70,11 @@
       <tfoot>
         <tr>
           <th>Nom</th>
-          <th>Username</th>
           <th>Email</th>
           <th>Téléphone(s)</th>
           <th>Adresse</th>
           <th>Service</th>
+          <th>Poste</th>
           <th>Activation</th>
           <th>Action</th>
         </tr>

@@ -1,0 +1,93 @@
+{% extends 's_base.html' %}
+{% load static %}
+
+{% block menus %}
+  {% with urlname1="saa" urlname2="saa2" %}
+    {% include '_nav.html' with title1="Ajouter une action" title2="Ajouter nouveau dossier" %}
+  {% endwith %}
+  
+  {% with urlhome="saa" url2="saa2" %}
+    {% include 'saa_sidebar.html' with tit1="Ajouter une action" tit2="Ajouter nouveau dossier" role=user.username %}
+  {% endwith %}
+{% endblock %}
+
+{% block content %}
+<!-- Main content -->
+<div class="container">
+  <div class="card" style="width: 1000px; margin-left: 60px;">
+    <div class="card-header">
+      <h3 class="card-title">Ajouter un nouveau dossier médical</h3>
+    </div>
+    <div class="card-body">
+      <form class="form-horizontal" method="post" >
+        {% csrf_token %}
+        <div class="card-body">
+          <div class="card-body">
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label">IPP :</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="ipp" name="ipp" placeholder="Identifiant du patient">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label"> CIN d'assurant :</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="cin" name="cin" placeholder="Carte d'identité nationale">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Numéro CNSS :</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="cin" name="cin" placeholder="Numéro de CNSS">
+                </div>
+              </div>
+            <div class="form-group row">
+              <label style="margin-right: 2px;">Photo CIN d'assurant  :</label>
+              <div class="input-group" style="width: 700px;">
+                <div class="custom-file">
+                  <input type="file" class="form-control custom-file-input" id="exampleInputFile">
+                  <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                </div>
+                <div class="input-group-append">
+                  <span class="input-group-text">Upload</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="exampleInputFile" style="margin-right: 65px;">photo CNSS :</label>
+              <div class="input-group" style="width: 700px;">
+                <div class="custom-file">
+                  <input type="file" class="form-control custom-file-input" id="exampleInputFile">
+                  <label class="custom-file-label" for="exampleInputFile">Choisir fichier</label>
+                </div>
+                <div class="input-group-append">
+                  <span class="input-group-text">Upload</span>
+                </div>
+              </div>
+            </div> 
+   
+          </div>
+
+        </div>
+        
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-info float-right">Soumettre</button>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+    </div>
+</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+  </script>
+
+
+{% endblock %}
