@@ -12,4 +12,6 @@ urlpatterns = [
     path('bio/', views.bio, name='bio'),
     path('saa/', views.saa, name='saa'),
     path('saa2/', views.saa2, name='saa2'),
+    path('home2/', views.Home2, name='home2'),
+    path('user_login/', views.user_login, name='user_login'),
 ]
