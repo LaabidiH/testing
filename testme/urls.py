@@ -6,7 +6,7 @@ from testme.views import liste_dossiers_patients
 from testme.views import generate_pdf_pris
 
 urlpatterns = [
-    path("home",views.Home, name="home"),
+    path("home/",views.Home, name="home"),
     path("actives",views.actives, name="actives"),
     path("contact",views.contact, name="contact"),
     path('signup/', views.signup, name='signup'),
@@ -27,5 +27,6 @@ urlpatterns = [
     path('archive_P/', views.archive_P, name='archive_P'),
     path('dossiers/', liste_dossiers_patients, name='liste_dossiers_patients'),
     path('generate-pdf_pris/', generate_pdf_pris, name='generate_pdf_pris'),
-
+    path('home2/', views.Home2, name='home2'),
+    path('user_login/', views.user_login, name='user_login'),
 ]

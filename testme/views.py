@@ -32,14 +32,13 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 def Home(request):
     context = {}
     # Pour Medecin
-    medecins_non_actifs = Medecin.objects.filter(active=False)
+    data = Medecin.objects.filter(active=False)
+    return render(request,'techniciens_a.html', {'data':data})
 
+def Home2(request):
+    context = {}
     # Pour PersonnelSoignant
-    personnels_non_actifs = PersonnelSoignant.objects.filter(active=False)
-
-    # Rassembler les objets eux-mêmes et les valeurs des champs dans une liste
-    data = list(medecins_non_actifs) + list(personnels_non_actifs)
-
+    data = PersonnelSoignant.objects.filter(active=False)
     return render(request,'index.html', {'data':data})
 
 
@@ -185,18 +184,23 @@ def bio(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        username = request.POST['email']
         password = request.POST['password']
-        print(username)
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            # L'authentification a réussi
-            login(request, user)
-            return redirect('home')
+        if authentification.objects.filter(email=username, password=password).exists():
+            user = authentification.objects.filter(email=username, password=password).all()
+            if user == "admin": 
+                return render(request, 'techniciens_a.html',{'context':user})
         else:
-            # L'authentification a échoué
-            error_message = "Nom d'utilisateur ou mot de passe incorrect."
-            return render(request, 'login.html', {'error_message': error_message})
+            pass
+        # user = authenticate(request, username=username, password=password)
+        # if user is not None:ss
+        #     # L'authentification a réussi
+        #     login(request, user)
+        #     return redirect('home')
+        # else:
+        #     # L'authentification a échoué
+        #     error_message = "Nom d'utilisateur ou mot de passe incorrect."
+        #     return render(request, 'login.html', {'error_message': error_message})
     return render(request, 'login.html')
 
 def user_logout(request):

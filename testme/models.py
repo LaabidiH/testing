@@ -2,6 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+class authentification(models.Model):
+    nom_complet = models.CharField(max_length=100, null= True)
+    email = models.EmailField(null= True)
+    password = models.CharField(max_length=100 , null= True)
+    poste_role = models.CharField(
+        max_length=20,
+        choices=[
+            ("medecin", "medecin"),
+            ("technicien", "technicien")
+        ], 
+        null= True
+    )
+
 class Personne(models.Model):
     nom_complet = models.CharField(max_length=100)
     email = models.EmailField()
