@@ -152,3 +152,11 @@ class DossierMedical(models.Model):
     phCNSS = models.FileField(upload_to='phCNSS/', validators=[validate_file_extension])
 
 
+## faty 
+class DossierPatient(models.Model):
+    nom = models.CharField(max_length=100)
+    ipp = models.IntegerField()
+    cin = models.CharField(max_length=20)
+
+    def __str__(self):
+     return f"{self.ipp} - {self.nom} - {self.cin}"
